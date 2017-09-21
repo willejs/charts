@@ -51,6 +51,13 @@ spec:
                   name: {{ template "grafana.server.fullname" . }}-config
                   key: grafana-install-plugins
             {{- end }}
+            {{- if .Values.server.githubAuth.clientSecret }}
+            - name: GF_SECURITY_AUTH_GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "grafana.server.fullname" . }}
+                  key: grafana-github-client-secret
+            {{- end }}
           ports:
             - containerPort: 3000
           readinessProbe:
